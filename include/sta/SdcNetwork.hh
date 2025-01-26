@@ -38,7 +38,8 @@ public:
   NetworkNameAdapter(Network *network);
   bool linkNetwork(const char *top_cell_name,
                    bool make_black_boxes,
-                   Report *report) override;
+                   Report *report,
+                   bool delete_modules) override;
 
   const char *name(const Library *library) const override;
   ObjectId id(const Library *library) const override;

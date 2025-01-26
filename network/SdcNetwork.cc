@@ -49,9 +49,11 @@ NetworkNameAdapter::NetworkNameAdapter(Network *network) :
 bool
 NetworkNameAdapter::linkNetwork(const char *top_cell_name,
 				bool make_black_boxes,
-				Report *report)
+				Report *report,
+                                bool delete_modules)
 {
-  return network_->linkNetwork(top_cell_name, make_black_boxes, report);
+  return network_->linkNetwork(top_cell_name, make_black_boxes, report,
+                               delete_modules);
 }
 
 Instance *

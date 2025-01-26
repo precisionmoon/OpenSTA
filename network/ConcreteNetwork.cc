@@ -1967,12 +1967,13 @@ ConcreteNetwork::setLinkFunc(LinkNetworkFunc link)
 bool
 ConcreteNetwork::linkNetwork(const char *top_cell_name,
 			     bool make_black_boxes,
-			     Report *report)
+			     Report *report,
+                             bool delete_modules)
 {
   if (link_func_) {
     clearConstantNets();
     deleteTopInstance();
-    top_instance_ = link_func_(top_cell_name, make_black_boxes);
+    top_instance_ = link_func_(top_cell_name, make_black_boxes, delete_modules);
     if (top_instance_)
       checkNetworkLibertyCorners();
     return top_instance_ != nullptr;
