@@ -764,8 +764,7 @@ Sta::linkDesign(const char *top_cell_name,
   Stats stats(debug_, report_);
   bool status = network_->linkNetwork(top_cell_name,
 				      make_black_boxes,
-				      report_,
-                                      /* delete modules after link */ true);
+				      report_);
   stats.report("Link");
   return status;
 }
