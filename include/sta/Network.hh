@@ -45,7 +45,8 @@ typedef Map<const char*, LibertyLibrary*, CharPtrLess> LibertyLibraryMap;
 // Link network function returns top level instance.
 // Return nullptr if link fails.
 typedef function<Instance* (const char *top_cell_name,
-                            bool make_black_boxes)> LinkNetworkFunc;
+                            bool make_black_boxes,
+                            bool delete_modules)> LinkNetworkFunc;
 typedef Map<const Net*, PinSet*> NetDrvrPinsMap;
 
 // The Network class defines the network API used by sta.
@@ -104,7 +105,8 @@ public:
   // Return true if successful.
   virtual bool linkNetwork(const char *top_cell_name,
 			   bool make_black_boxes,
-			   Report *report) = 0;
+			   Report *report,
+                           bool delete_modules) = 0;
   virtual bool isLinked() const;
   virtual bool isEditable() const { return false; }
 
