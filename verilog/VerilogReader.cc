@@ -22,12 +22,11 @@
 // 
 // This notice may not be removed or altered from any source distribution.
 
-#include "verilog/VerilogReader.hh"
+#include "VerilogReader.hh"
 
 #include <cstdlib>
 
-#include "util/gzstream.hh"
-
+#include "Zlib.hh"
 #include "Debug.hh"
 #include "Report.hh"
 #include "Error.hh"
@@ -169,7 +168,7 @@ bool
 VerilogReader::read(const char *filename)
 {
   gzstream::igzstream stream(filename);
-  if (stream.good()) {
+  if (stream.is_open()) {
     Stats stats(debug_, report_);
     VerilogScanner scanner(&stream, filename, report_);
     VerilogParse parser(&scanner, this);
@@ -2264,7 +2263,7 @@ VerilogScanner::VerilogScanner(std::istream *stream,
 void
 VerilogScanner::error(const char *msg)
 {
-  report_->fileError(1866, "foo", lineno(), "%s", msg);
+  report_->fileError(1866, filename_, lineno(), "%s", msg);
 }
 
 } // namespace

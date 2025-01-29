@@ -273,6 +273,15 @@ set(STA_TCL_FILES
 find_package(FLEX)
 find_package(BISON)
 
+# Liberty scan/parse.
+flex_target(LibertyLex ${STA_HOME}/liberty/LibertyLex.ll
+  ${CMAKE_CURRENT_BINARY_DIR}/LibertyLex.cc)
+bison_target(LibertyParse ${STA_HOME}/liberty/LibertyParse.yy
+  ${CMAKE_CURRENT_BINARY_DIR}/LibertyParse.cc
+  # centos7 bison 3.0.4 < 3.3.0 uses parser_class_name instead of api.parsr.class
+  COMPILE_FLAGS "-Wno-deprecated")
+add_flex_bison_dependency(LibertyLex LibertyParse)
+
 # LibertyExpr scan/parse.
 flex_target(LibertyExprLex ${STA_HOME}/liberty/LibertyExprLex.ll
   ${CMAKE_CURRENT_BINARY_DIR}/LibertyExprLex.cc
@@ -282,15 +291,6 @@ bison_target(LibertyExprParse ${STA_HOME}/liberty/LibertyExprParse.yy
   COMPILE_FLAGS --name-prefix=LibertyExprParse_
   )
 add_flex_bison_dependency(LibertyExprLex LibertyExprParse)
-
-# Liberty scan/parse.
-flex_target(LibertyLex ${STA_HOME}/liberty/LibertyLex.ll ${CMAKE_CURRENT_BINARY_DIR}/LibertyLex.cc
-  COMPILE_FLAGS --prefix=LibertyLex_
-  )
-bison_target(LibertyParse ${STA_HOME}/liberty/LibertyParse.yy ${CMAKE_CURRENT_BINARY_DIR}/LibertyParse.cc
-  COMPILE_FLAGS "--name-prefix=LibertyParse_ -v"
-  )
-add_flex_bison_dependency(LibertyLex LibertyParse)
 
 # Spef scan/parse.
 flex_target(SpefLex ${STA_HOME}/parasitics/SpefLex.ll ${CMAKE_CURRENT_BINARY_DIR}/SpefLex.cc
@@ -307,18 +307,17 @@ flex_target(VerilogLex ${STA_HOME}/verilog/VerilogLex.ll
 bison_target(VerilogParse ${STA_HOME}/verilog/VerilogParse.yy
   ${CMAKE_CURRENT_BINARY_DIR}/VerilogParse.cc
   # centos7 bison 3.0.4 < 3.3.0 uses parser_class_name instead of api.parsr.class
-  COMPILE_FLAGS -Wno-deprecated)
+  COMPILE_FLAGS "-Wno-deprecated")
 add_flex_bison_dependency(VerilogLex VerilogParse)
 
 # Sdf scan/parse.
-flex_target(SdfLex ${STA_HOME}/sdf/SdfLex.ll ${CMAKE_CURRENT_BINARY_DIR}/SdfLex.cc
-  COMPILE_FLAGS --prefix=SdfLex_
-  )
-bison_target(SdfParse ${STA_HOME}/sdf/SdfParse.yy ${CMAKE_CURRENT_BINARY_DIR}/SdfParse.cc
-  COMPILE_FLAGS --name-prefix=SdfParse_
-  )
+flex_target(SdfLex ${STA_HOME}/sdf/SdfLex.ll
+  ${CMAKE_CURRENT_BINARY_DIR}/SdfLex.cc)
+bison_target(SdfParse ${STA_HOME}/sdf/SdfParse.yy
+  ${CMAKE_CURRENT_BINARY_DIR}/SdfParse.cc
+  # centos7 bison 3.0.4 < 3.3.0 uses parser_class_name instead of api.parsr.class
+  COMPILE_FLAGS "-Wno-deprecated")
 add_flex_bison_dependency(SdfLex SdfParse)
-
 
 # Saif scan/parse.
 flex_target(SaifLex ${STA_HOME}/power/SaifLex.ll ${CMAKE_CURRENT_BINARY_DIR}/SaifLex.cc
